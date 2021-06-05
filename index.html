@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>COWIN APP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <img style="width: 100%;" src="https://www.cowin.gov.in/assets/images/largest-vaccine-banner.jpg" />
+        <h2>Check your nearest vaccination center and slots availability</h2>
+        <div class="form-group">
+            <label for="pin">Search By Pin:</label>
+            <input type="number" maxlength="6" class="form-control" id="pin" placeholder="Enter pin" name="pin">
+        </div>
+
+        <button id="searchbtn" class="btn btn-default">Search</button>
+
+        <button id="searchbtn1" class="btn btn-default">Search By District</button>
+
+        <table class="table" id="session">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>18+</th>
+                    <th>45+</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var date = new Date();
+        var today = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        $("#searchbtn").click(function () {
+            var pin = $('#pin').val();
+            if (pin == '' || pin == undefined) {
+                alert('please enter pin code');
+                return;
+            }
+            $.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=" + pin +
+                "&date=" + today,
+                function (data, status) {
+                    if (status) {
+                        var sessions = data.sessions ? data.sessions : [];
+                        if (sessions) {
+                            for (var i = 0; i <= sessions.length; i++) {
+                                var classname = "info";
+                                if (i % 2 == 0) {
+                                    classname = "success"
+                                }
+                                $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
+                                    .name + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    sessions[i].available_capacity_dose1 + "</td></tr>")
+                            }
+                        }
+                    } else {
+                        alert('error');
+                    }
+
+                });
+        });
+
+        $("#searchbtn1").click(function () {
+            var district_id = "89";
+            $.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=" +
+                district_id + "&date=" + today,
+                function (data, status) {
+                    if (status) {
+                        var sessions = data.sessions ? data.sessions : [];
+                        if (sessions) {
+                            for (var i = 0; i <= sessions.length; i++) {
+                                var classname = "info";
+                                if (i % 2 == 0) {
+                                    classname = "success"
+                                }
+
+                                $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
+                                    .name + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    sessions[i].available_capacity_dose1 + "</td></tr>")
+                            }
+                        }
+                    } else {
+                        alert('error');
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
