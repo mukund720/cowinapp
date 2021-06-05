@@ -28,6 +28,8 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Pin code</th>
+                    <th>Date</th>
                     <th>18+</th>
                     <th>45+</th>
                 </tr>
@@ -57,7 +59,7 @@
                                     classname = "success"
                                 }
                                 $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
-                                    .name + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    .name + "</td><td>" + sessions[i].pincode + "</td><td>" + sessions[i].date + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
                                     sessions[i].available_capacity_dose1 + "</td></tr>")
                             }
                         }
@@ -83,7 +85,7 @@
                                 }
 
                                 $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
-                                    .name + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    .name + "</td><td>" + sessions[i].pincode + "</td><td>" + sessions[i].date + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
                                     sessions[i].available_capacity_dose1 + "</td></tr>")
                             }
                         }
